@@ -33,7 +33,10 @@ class EntryExit(object):
         self.f()
         print("Exiting ", self.f.__name__)
 
-
+# The object a decorator returns has to be callable, in class based
+# implementation, we are providing a __call__ method and hence the
+# execution logic is built right inside of it. In the same spirit,
+# a decorator function has to return a function.
 def entryExit(f):
     def g():
         print("Entering ", f.__name__)
@@ -42,7 +45,7 @@ def entryExit(f):
     return g
 
 
-class  decoratorWithoutArgument(object):
+class decoratorWithoutArgument(object):
 
     def __init__(self, f):
         # If there are no arguments, the function
@@ -56,7 +59,7 @@ class  decoratorWithoutArgument(object):
         print("Inside __call__")
         self.f(*args)
         print("After self.f(*args)")
-        
+
 
 class decoratorWithArguments(object):
 
@@ -82,17 +85,7 @@ class decoratorWithArguments(object):
         return wrapped_f
 
         
-@entryExit
-def func1():
-    print("Inside func1()")
-
-
-@entryExit
-def func2():
-    print("Inside func2()")
-
-
-@decoratorWithoutArgument
+@decoratorWithArguments("Hello", "World", 42)
 def func3(a1, a2, a3, a4):
     print("func3 arguments")
     print(a1, a2, a3, a4)
@@ -100,7 +93,6 @@ def func3(a1, a2, a3, a4):
 print("After decoration")
 print("First call to func3")
 func3("This", "is", "his", "shit")
-print("Second call to func3")
-func3("another", "one of", "his", 'shit')
 print("done")
     
+
