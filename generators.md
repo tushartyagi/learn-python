@@ -101,3 +101,4 @@ memory required by a large amount.
 	>>> file_obj = open('some_file.log')
 	>>> for line in file_obj
 		
+

@@ -44,6 +44,9 @@ def entryExit(f):
         print("Exiting ", f.__name__)
     return g
 
+@entryExit # -- The value of entryExit is used as a decorator
+def func4(): pass
+
 
 class decoratorWithoutArgument(object):
 
@@ -85,7 +88,21 @@ class decoratorWithArguments(object):
         return wrapped_f
 
         
-@decoratorWithArguments("Hello", "World", 42)
+    
+def fDecoratorWithArguments(arg1, arg2, arg3):
+    print("inside init")
+    def decoratorWithArguments(func):
+        print("inside call")
+        def wrapped_f(*args):
+            print("inside wrapped_f")
+            print("decorator args: ", arg1, arg2, arg3)
+            func(*args)
+            print("after f(args)")
+        return wrapped_f
+    return decoratorWithArguments
+
+# The value returned by fDecoratorWithArguments is used as a decorator
+@fDecoratorWithArguments("Hello", "World", 42) 
 def func3(a1, a2, a3, a4):
     print("func3 arguments")
     print(a1, a2, a3, a4)
@@ -94,5 +111,3 @@ print("After decoration")
 print("First call to func3")
 func3("This", "is", "his", "shit")
 print("done")
-    
-
